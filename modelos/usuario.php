@@ -34,18 +34,14 @@ class usuario{
 		$stmt->execute();
     }
 
-    public function select($coluna=null,$criterio=null){
+    public function select($coluna,$criterio){
         $query="select * from usuarios";
         $conexao=new conexao();
         $colunas=array("nome","email","telefone","nascimento","cidade");
         if(in_array($coluna,$colunas)){
-            if(!is_null($coluna)){
-                $query.=" where ".$coluna." = :criterio;";
-                $stmt = $conexao->conectar()->prepare($query);
-                $stmt->bindValue(':criterio',$criterio);
-            }else{
-                $stmt = $conexao->conectar()->prepare($query);
-            }
+            $query.=" where ".$coluna." = :criterio;";
+            $stmt = $conexao->conectar()->prepare($query);
+            $stmt->bindValue(':criterio',$criterio);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }else{
