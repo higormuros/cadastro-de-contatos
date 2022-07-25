@@ -8,7 +8,7 @@ if(
 ){
     require $diretorioModelos."usuario.php";
     usuario::deletar($_REQUEST['id']);
-    echo "deletado";
+    echo json_encode(array("Sucesso"=>"Deletado"));
 } else{
-    echo "Erro: os dados do novo usuário foram informados incorretamente ou algum dado não foi informado.";
+    echo json_encode(array("Erro"=>"Dados informados incorretamente ou ausentes."));
 }

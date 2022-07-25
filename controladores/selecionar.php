@@ -11,12 +11,10 @@ if(
     require $diretorioModelos."usuario.php";
     $resultado=usuario::select($_REQUEST['coluna'],$_REQUEST['criterio']);
     if(sizeof($resultado)>0){
-        echo "<pre>";
-        var_dump($resultado);
-        echo "</pre>";
+        echo json_encode($resultado);
     } else{
-        echo "Erro: não foram encontrados contatos para os critérios informados.";
+        echo json_encode(array("Erro"=>"Nenhum registro encontrado."));
     }
 } else{
-    echo "Erro: coluna ou critério não definido ou definido incorretamente.";
+    echo json_encode(array("Erro"=>"Consulta incorreta."));
 }

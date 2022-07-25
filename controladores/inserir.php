@@ -19,11 +19,11 @@ if(
             $_REQUEST['cidade']
         );
         $usuario->inserir();
-        echo "inserido";
+        echo json_encode(array("Sucesso"=>"Inserido"));
     }else{
-        echo "Erro: a data pode ter sido informada incorretamente ou não estava no formato aaaa-mm-dd.";
+        echo json_encode(array("Erro"=>"Data informada incorretamente ou fora do formato aaaa-mm-dd."));
     }
 } else{
-    echo "Erro: os dados do novo usuário foram informados incorretamente ou algum dado não foi informado.";
+    echo json_encode(array("Erro"=>"Dados informados incorretamente ou ausentes."));
 }
 
