@@ -17,10 +17,11 @@ function formatoData($dataNascimento){
         ){
             $dataOk=false;
         }
+        if(!dataCorreta($dataArray)){
+            $dataOk = false;
+        }
     }
-    if(!dataCorreta($dataArray)){
-        $dataOk = false;
-    }
+    
     return $dataOk;
 }
 
