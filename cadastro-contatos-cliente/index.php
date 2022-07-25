@@ -19,7 +19,8 @@
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 		<style>
-			.material-symbols-outlined.md-50 { font-size: 50px; }
+			.material-symbols-outlined.md-l { font-size: 50px; }
+			.material-symbols-outlined.md-m { font-size: 30px; }
 			body {
 				background-image: url("bg.jpg");
 				background-repeat: no-repeat;
@@ -40,7 +41,7 @@
 				<div class="row">
 					<div class="col-4 ps-4">
 						<span 
-							class="material-symbols-outlined md-50" 
+							class="material-symbols-outlined md-l" 
 							onclick="showModal(page='formInserir',title='Inserir',maxWidth='500px',greenBtn='Enviar',redBtn='Limpar',id='null')"
 							style="margin-top:2px; cursor:pointer;">add_box</span>
 					</div>
@@ -101,10 +102,10 @@
 									novoTexto+="<div class='col-2'>"+meuObj[i].nascimento+"</div>";
 									novoTexto+="<div class='col-2'>"+meuObj[i].cidade+"</div>";
 									novoTexto+="<div class='col-2'>";
-									novoTexto+="<span class='material-symbols-outlined md-50 ms-5'>";
+									novoTexto+="<span class='material-symbols-outlined md-m ms-5'>";
 									novoTexto+="edit";
 									novoTexto+="</span>";
-									novoTexto+="<span class='material-symbols-outlined md-50 ms-4'>";
+									novoTexto+="<span class='material-symbols-outlined md-m ms-4'>";
 									novoTexto+="delete_forever";
 									novoTexto+="</span>";
 									novoTexto+="</div>";
