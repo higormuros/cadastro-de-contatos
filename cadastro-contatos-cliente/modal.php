@@ -42,7 +42,7 @@
 }
 </style>
 <script>
-function showModal(page="null",title="Important!",maxWidth="800px",greenBtn="Save",redBtn="Cancel",id="null"){
+function showModal(page="null",title="Important!",maxWidth="800px",greenBtn="Save",redBtn="Cancel",id="null",user="null"){
 	document.getElementById("modal").style.display="flex";
     if(page!="null"){
 		var xmlhttp = new XMLHttpRequest();
@@ -51,12 +51,19 @@ function showModal(page="null",title="Important!",maxWidth="800px",greenBtn="Sav
 		xmlhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				document.getElementById("modalContentBody").innerHTML = this.responseText;
+				if(id!="null" && user!="null"){
+					document.getElementById("idAtualizar").value=id;
+					document.getElementById("acao2").value="atualizar";
+					document.getElementById("nome").value=document.getElementById("nome"+user).innerHTML;
+					document.getElementById("email").value=document.getElementById("email"+user).innerHTML;
+					document.getElementById("telefone").value=document.getElementById("telefone"+user).innerHTML;
+					document.getElementById("nascimento").value=document.getElementById("nascimento"+user).innerHTML;
+					document.getElementById("cidade").value=document.getElementById("cidade"+user).innerHTML;
+				}
 			}
 		};
 	};
-	if(id!="null"){
-		document.getElementById("idPost").value = id;
-	}
+	
 	document.getElementById("modalContentTitle").innerHTML = title;
 	document.querySelector(".modalContent").style.maxWidth = maxWidth;
 	document.getElementById("modalGreenBtn").value = greenBtn;
@@ -84,6 +91,7 @@ function sendModal(){
 		}
 	});
 	hideModal();
+	setTimeout(enviarForm, 1000);
 }
 
 function clearModal(){

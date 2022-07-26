@@ -13,6 +13,9 @@
 		crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 		rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@200&display=swap" rel="stylesheet"> 
 		<link rel="stylesheet" 
 		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /><title>Cadastro de contatos</title>
 		<!-- JQuery -->
@@ -30,7 +33,7 @@
 		</style>
 	</head>
 
-	<body>
+	<body style="font-family: 'Roboto', sans-serif;">
 
 		<div class="container bg-light py-5 px-4" style="margin-top:100px; margin-bottom:100px;">
 			<div class="mb-4">
@@ -42,12 +45,13 @@
 					<div class="col-4 ps-4">
 						<span 
 							class="material-symbols-outlined md-l" 
-							onclick="showModal(page='formInserir',title='Inserir',maxWidth='500px',greenBtn='Enviar',redBtn='Limpar',id='null')"
+							onclick="showModal('formInserir','Inserir','500px','Enviar','Limpar')"
 							style="margin-top:2px; cursor:pointer;">add_box</span>
 					</div>
 					<div class="col-6" style="padding-right:50px;">
 						<input oninput="enviarForm()" type="text" class="form-control mt-2" id="criterio" name="criterio" placeholder="Buscar...">
 						<input type="hidden" name="acao" id="acao" value="selecionar">
+						<input type="hidden" name="id" id="idUsuario" value="">
 					</div>
 					<div class="col-2 pe-4">
 						<select onchange="enviarForm()" class="form-select mt-2" name="coluna" id="coluna">
@@ -82,46 +86,53 @@
 					}
 				});
 			});
-			function enviarForm(){
+			function enviarForm(id="null"){
 				coluna=document.getElementById("coluna").value;
 				criterio=document.getElementById("criterio").value;
-				document.getElementById("acao").value="selecionar";
+				if(id!=="null"){
+					document.getElementById("acao").value="deletar";
+					document.getElementById("idUsuario").value=id;
+				}else{
+					document.getElementById("acao").value="selecionar";
+				}
 				if(criterio!=="" && coluna!==""){
 					$.ajax({
 						type: "POST",
 						url: "http://localhost/cadastro-contatos/api/",
 						data: $("#form").serialize(),
 						success: function(data) {
-					
 							meuObj = JSON.parse(data);
-							if(meuObj.hasOwnProperty("Erro")){
-								novoTexto="<hr class='text-secondary'>";
-								novoTexto+="<div class='row px-2'>";
-								novoTexto+="<div class='col-12'>"+meuObj.Erro+"</div>";
-								novoTexto+="</div>";
+							if(id!=="null"){
+								enviarForm();
 							}else{
-								novoTexto="";
-								for(i=0;i<meuObj.length;i++){
-									novoTexto+="<hr class='text-secondary'>";
+								if(meuObj.hasOwnProperty("Erro")){
+									novoTexto="<hr class='text-secondary'>";
 									novoTexto+="<div class='row px-2'>";
-									novoTexto+="<div class='col-2'>"+meuObj[i].nome+"</div>";
-									novoTexto+="<div class='col-2'>"+meuObj[i].email+"</div>";
-									novoTexto+="<div class='col-2'>"+meuObj[i].telefone+"</div>";
-									novoTexto+="<div class='col-2'>"+meuObj[i].nascimento+"</div>";
-									novoTexto+="<div class='col-2'>"+meuObj[i].cidade+"</div>";
-									novoTexto+="<div class='col-2'>";
-									novoTexto+="<span class='material-symbols-outlined md-m ms-5'>";
-									novoTexto+="edit";
-									novoTexto+="</span>";
-									novoTexto+="<span class='material-symbols-outlined md-m ms-4'>";
-									novoTexto+="delete_forever";
-									novoTexto+="</span>";
+									novoTexto+="<div class='col-12'>"+meuObj.Erro+"</div>";
 									novoTexto+="</div>";
-									novoTexto+="</div>";
-									console.log(i);
+								}else{
+									novoTexto="";
+									for(i=0;i<meuObj.length;i++){
+										novoTexto+="<hr class='text-secondary'>";
+										novoTexto+="<div class='row px-2'>";
+										novoTexto+="<div id='nome"+i+"' class='col-2'>"+meuObj[i].nome+"</div>";
+										novoTexto+="<div id='email"+i+"' class='col-2'>"+meuObj[i].email+"</div>";
+										novoTexto+="<div id='telefone"+i+"' class='col-2'>"+meuObj[i].telefone+"</div>";
+										novoTexto+="<div id='nascimento"+i+"' class='col-2'>"+meuObj[i].nascimento+"</div>";
+										novoTexto+="<div id='cidade"+i+"' class='col-2'>"+meuObj[i].cidade+"</div>";
+										novoTexto+="<div class='col-2'>";
+										novoTexto+="<span onclick='atualizarUsuario("+meuObj[i].iduser+","+i+")' style='cursor:pointer;' class='material-symbols-outlined md-m ms-5'>";
+										novoTexto+="edit";
+										novoTexto+="</span>";
+										novoTexto+="<span onclick='enviarForm("+meuObj[i].iduser+")' style='cursor:pointer;' class='material-symbols-outlined md-m ms-4'>";
+										novoTexto+="delete_forever";
+										novoTexto+="</span>";
+										novoTexto+="</div>";
+										novoTexto+="</div>";
+									}
 								}
+								document.getElementById("resposta").innerHTML=novoTexto;
 							}
-							document.getElementById("resposta").innerHTML=novoTexto;
 							
 						},
 						error: function(data) {
@@ -129,6 +140,9 @@
 						}
 					});
 				}
+			}
+			function atualizarUsuario(id,obj){
+				showModal('formInserir','Atualizar','500px','Enviar','Limpar',id,obj);
 			}
 		</script>
 		<?php 

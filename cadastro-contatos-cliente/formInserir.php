@@ -30,7 +30,8 @@
 		<input type="text" class="form-control" id="cidade" name="cidade" required>
 		<div class="form-text">Obrigatório</div>
 	</div>
-	<input type="hidden" name="acao" value="inserir">
+	<input type="hidden" id="acao2" name="acao" value="inserir">
+	<input type="hidden" id="idAtualizar" name="id" value="">
 	<input type="hidden" id="modalSavePage" value="http://localhost/cadastro-contatos/api/">
 	
 </form>
